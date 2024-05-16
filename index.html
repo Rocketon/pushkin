@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale:1, user-scalable=no" />
+    <link rel="stylesheet" href="css/reset.css" />
+    <link rel="stylesheet" href="css/uikit.min.css" />
+    <script src="js/uikit.min.js"></script>
+    <link rel="stylesheet" href="css/style.css" />
+
+    <title>QR Runner</title>
+  </head>
+
+  <body>
+    <div class="main">
+      <div class="app rctk-app uk-width-1-1" v-show="showMainMenu">
+        <ul class="uk-dotnav rckt-dotnav">
+          <li><a :class="{ 'rctk-active' : state==0, 'rctk-actived' : state>0 }" href="#1">1</a></li>
+          <li><a :class="{ 'rctk-active' : state==1, 'rctk-actived' : state>1 }" href="#2">2</a></li>
+          <li><a :class="{ 'rctk-active' : state==2, 'rctk-actived' : state>2 }" href="#3">3</a></li>
+          <li><a :class="{ 'rctk-active' : state==3, 'rctk-actived' : state>3 }" href="#4">4</a></li>
+          <li><a :class="{ 'rctk-active' : state==4, 'rctk-actived' : state>4 }" href="#5">5</a></li>
+          <li><a :class="{ 'rctk-active' : state==5, 'rctk-actived' : state>5 }" href="#6">6</a></li>
+          <li><a :class="{ 'rctk-active' : state==6, 'rctk-actived' : state>6 }" href="#7">7</a></li>
+        </ul>
+        <div class="quests">
+          <div class="quest" v-show="state==0">
+            <p class="hint">
+              Добро пожаловать на QR-квест «Преданья старины глубокой»! Пройдя станции в верном порядке и получив все
+              символы,составьте пароль и покажите его администратору.<br />
+              Первый символ пароля вы найдёте у экрана с информацией о истории создания песни о Вещем Олеге. Удачи!
+            </p>
+          </div>
+          <div class="quest" v-show="state==1">
+            <p class="description">
+              Из темного леса навстречу ему<br />
+              Идет вдохновенный кудесник,<br />
+              Покорный Перуну старик одному,<br />
+              Заветов грядущего вестник,<br />
+              В мольбах и гаданьях проведший весь век.<br />
+              И к мудрому старцу подъехал Олег.
+            </p>
+            <img class="picture" src="content/1.png" />
+            <p class="hint">
+              Следующий элемент пароля вы найдёте у экрана с информацией о скрытых смыслах в «Сказке о царе Салтане».
+            </p>
+          </div>
+          <div class="quest" v-show="state==2">
+            <p class="description">
+              Ветер весело шумит,<br />
+              Судно весело бежит<br />
+              Мимо острова Буяна,<br />
+              К царству славного Салтана…
+            </p>
+            <img class="picture" src="content/2.png" />
+            <p class="hint">
+              Следующий элемент пароля вы найдёте у экрана с информацией об истории создания трагедии Борис Годунов.
+            </p>
+          </div>
+          <div class="quest" v-show="state==3">
+            <p class="description">
+              Кто чувствами в порочных наслаждениях<br />
+              В младые дни привыкнул утопать,<br />
+              Тот, возмужав, угрюм и кровожаден,<br />
+              И ум его безвременно темнеет.<br />
+            </p>
+            <img class="picture" src="content/3.png" />
+            <p class="hint">
+              Следующий элемент пароля вы найдёте у экрана с информацией об истории создания романа в стихах «Евгений Онегин».
+            </p>
+          </div>
+          <div class="quest" v-show="state==4">
+            <p class="description">
+              Я к вам пишу <span style="font-family: FreeMono">–</span> чего же боле?<br />
+              Что я могу еще сказать?<br />
+              Теперь, я знаю, в вашей воле<br />
+              Меня презреньем наказать<br />
+            </p>
+            <img class="picture" src="content/4.png" />
+            <p class="hint">Следующий элемент вы найдёте у экрана с информацией о правителе, носившем прозвище Тёмный.</p>
+          </div>
+          <div class="quest" v-show="state==5">
+            <p class="description">
+              В третий раз закинул он невод, <span style="font-family: FreeMono">–</span><br />
+              Пришел невод с одною рыбкой,<br />
+              С непростою рыбкой, <span style="font-family: FreeMono">–</span> золотою.<br />
+            </p>
+            <img class="picture" src="content/5.png" />
+            <p class="hint">
+              Следующий элемент пароля вы найдёте у экрана с информацией об истории создания романа «Капитанская дочка».
+            </p>
+          </div>
+          <div class="quest" v-show="state==6">
+            <p class="description">
+              Береги платье снову, а честь смолоду.<br />
+            </p>
+            <img class="picture" src="content/6.png" />
+            <p class="hint">
+              Последний элемент пароля вы найдёте у экрана с информацией об истории создания поэмы «Руслан и Людмила».
+            </p>
+          </div>
+          <div class="quest" v-show="state>=7">
+            <p class="description">
+              Дела давно минувших дней,<br />
+              Преданья старины глубокой.<br />
+            </p>
+            <img class="picture" src="content/7.png" />
+            <p class="hint">
+              Поздравляем с прохождением квеста! Вы успешно собрали все 7 элементов загаданного пароля, осталось лишь
+              показать его администратору!
+            </p>
+            <div class="qr-scanner__switch_cam">
+              <button class="qr-scanner__switch_cam_button" onclick="restart()">Начать заново</button>
+            </div>
+          </div>
+        </div>
+        <div class="qr-scanner__switch_cam" v-show="state>-1 && state!=7" @click="openQR_scanner">
+          <button class="qr-scanner__switch_cam_button">Сканировать</button>
+        </div>
+      </div>
+
+      <div class="app qr-scanner uk-width-1-1" v-show="showQR_scanner">
+        <div class="uk-card uk-card-default uk-card-body uk-width-1-1" v-show="state==-1">
+          <h3 class="uk-card-title">Добро пожаловать на QR квест</h3>
+          <p>Для начала игры отсканируйте первый QR код</p>
+        </div>
+
+        <div class="qr-scanner__body">
+          <qrcode-scanner id="reader" :qrbox="300" :fps="5" @result="onScan" />
+        </div>
+
+        <div class="qr-scanner__switch_cam" v-show="state>-1" @click="goToMainMenu">
+          <button class="qr-scanner__switch_cam_button">К вопросу</button>
+        </div>
+      </div>
+
+      <div class="app qr-scanner error uk-width-1-1" v-show="showQR_scanner_error">
+        <div class="qr-error">Неверно!</div>
+      </div>
+      <div class="app qr-scanner success uk-width-1-1" v-show="showQR_scanner_success">
+        <div class="qr-success">Верно!</div>
+      </div>
+    </div>
+
+    <script src="js/vue.js"></script>
+    <!--<script src="js/qrcode.js"></script>-->
+    <script src="js/html5-qrcode.min.js"></script>
+
+    <script type="application/javascript">
+      Vue.component("qrcode-scanner", {
+        props: {
+          qrbox: {
+            type: Number,
+            default: 250,
+          },
+          fps: {
+            type: Number,
+            default: 10,
+          },
+        },
+        template: `<div id="qr-code-full-region"></div>`,
+        mounted() {
+          const config = {
+            fps: this.fps,
+          };
+          let html5QrCode = new Html5Qrcode("reader");
+          let qrCodeSuccessCallback = html5QrCode
+            .start(
+              { facingMode: "environment" },
+              config,
+              (decodedText, decodedResult) => {
+                this.onScanSuccess(decodedText, decodedResult);
+              },
+              (errorMessage) => {
+                console.log(errorMessage);
+              }
+            )
+            .catch((err) => {
+              html5QrCode.stop();
+              html5QrCode.clear();
+            });
+        },
+        methods: {
+          onScanSuccess(decodedText, decodedResult) {
+            this.$emit("result", decodedText, decodedResult);
+          },
+        },
+      });
+
+      let app = new Vue({
+        el: ".main",
+        data: {
+          showMainMenu: false,
+          showQR_scanner: true,
+          showQR_scanner_error: false,
+          showQR_scanner_success: false,
+          lastQR: "",
+          state: -1,
+          qr_s: "https://rocketon.github.io/#start",
+          qr_1: "ebjhsc",
+          qr_2: "ityquw",
+          qr_3: "gjasyw",
+          qr_4: "jgktws",
+          qr_5: "zjamsk",
+          qr_6: "bnaiws",
+          qr_7: "iakwsl",
+          scanStop: true,
+        },
+        mounted() {
+          this.$nextTick(function () {
+            console.log("nextTick");
+            if (localStorage.getItem("state") == null || localStorage.getItem("state") == -1) {
+              localStorage.setItem("state", this.state);
+            } else {
+              setTimeout(() => {
+                this.state = localStorage.getItem("state");
+                this.goToMainMenu();
+              }, 500);
+            }
+          });
+        },
+        methods: {
+          clearScreen() {
+            this.showMainMenu = false;
+            this.showQR_scanner = false;
+            window.scrollTo(0, 0);
+          },
+          goToMainMenu() {
+            this.clearScreen();
+            this.showMainMenu = true;
+            localStorage.setItem("state", this.state);
+          },
+          openQR_scanner() {
+            this.clearScreen();
+            this.showQR_scanner = true;
+          },
+          openQR_scanner_error() {
+            this.showQR_scanner_error = true;
+            setTimeout(() => {
+              this.showQR_scanner_error = false;
+            }, "1000");
+          },
+          openQR_scanner_success() {
+            this.showQR_scanner_success = true;
+            setTimeout(() => {
+              this.showQR_scanner_success = false;
+            }, "1000");
+          },
+          onScan(decodedText, decodedResult) {
+            if (decodedText == this.qr_s && this.state == -1) {
+              this.lastQR = decodedText;
+              this.state = 0;
+              this.goToMainMenu();
+              this.openQR_scanner_success();
+            } else if (decodedText == this.qr_1 && this.state == 0) {
+              this.lastQR = decodedText;
+              this.state += 1;
+              this.goToMainMenu();
+              this.openQR_scanner_success();
+            } else if (decodedText == this.qr_2 && this.state == 1) {
+              this.lastQR = decodedText;
+              this.state += 1;
+              this.goToMainMenu();
+              this.openQR_scanner_success();
+            } else if (decodedText == this.qr_3 && this.state == 2) {
+              this.lastQR = decodedText;
+              this.state += 1;
+              this.goToMainMenu();
+              this.openQR_scanner_success();
+            } else if (decodedText == this.qr_4 && this.state == 3) {
+              this.lastQR = decodedText;
+              this.state += 1;
+              this.goToMainMenu();
+              this.openQR_scanner_success();
+            } else if (decodedText == this.qr_5 && this.state == 4) {
+              this.lastQR = decodedText;
+              this.state += 1;
+              this.goToMainMenu();
+              this.openQR_scanner_success();
+            } else if (decodedText == this.qr_6 && this.state == 5) {
+              this.lastQR = decodedText;
+              this.state += 1;
+              this.goToMainMenu();
+              this.openQR_scanner_success();
+            } else if (decodedText == this.qr_7 && this.state == 6) {
+              this.lastQR = decodedText;
+              this.state += 1;
+              this.goToMainMenu();
+              this.openQR_scanner_success();
+            } else if (decodedText == this.lastQR) {
+              console.log(`PASS: Text = ${decodedText}; \n State = ${this.state}`);
+              //pass
+            } else {
+              console.log(`Text = ${decodedText}; \n State = ${this.state}`);
+              this.lastQR = decodedText;
+              this.openQR_scanner_error();
+            }
+          },
+          openSettings() {
+            if (document.getElementById("qr-code-full-region__dashboard").style.display == "none") {
+              document.getElementById("qr-code-full-region__dashboard").style.display = "block";
+            } else {
+              document.getElementById("qr-code-full-region__dashboard").style.display = "none";
+            }
+          },
+          syncWithLocal() {},
+          checkBrowser() {},
+        },
+      });
+
+      // отделить ПК дебаг
+
+      setTimeout(() => {
+        let txt = document.location.href.split("#").pop();
+        console.log(txt);
+        if (txt == "start") {
+          app.goToMainMenu();
+          app.state = 0;
+        }
+      }, 500);
+
+      function restart() {
+        if (confirm("Вы уверены что хотите начать с начала?")) {
+          localStorage.setItem("state", -1);
+          location.reload();
+        }
+      }
+    </script>
+  </body>
+</html>
