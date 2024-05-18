@@ -231,20 +231,20 @@
             this.showMainMenu = true;
             localStorage.setItem("state", this.state);
           },
-          openQR_scanner() {
+          opencanner() {
             this.clearScreen();
-            this.showQR_scanner = true;
+            this.showcanner = true;
           },
-          openQR_scanner_error() {
-            this.showQR_scanner_error = true;
+          opencanner_error() {
+            this.showcanner_error = true;
             setTimeout(() => {
-              this.showQR_scanner_error = false;
+              this.showcanner_error = false;
             }, "1000");
           },
-          openQR_scanner_success() {
-            this.showQR_scanner_success = true;
+          opencanner_success() {
+            this.showcanner_success = true;
             setTimeout(() => {
-              this.showQR_scanner_success = false;
+              this.showcanner_success = false;
             }, "1000");
           },
           onScan(decodedText, decodedResult) {
@@ -252,42 +252,42 @@
               this.lastQR = decodedText;
               this.state = 0;
               this.goToMainMenu();
-              this.openQR_scanner_success();
+              this.opencanner_success();
             } else if (decodedText == this.qr_1 && this.state == 0) {
               this.lastQR = decodedText;
               this.state += 1;
               this.goToMainMenu();
-              this.openQR_scanner_success();
+              this.opencanner_success();
             } else if (decodedText == this.qr_2 && this.state == 1) {
               this.lastQR = decodedText;
               this.state += 1;
               this.goToMainMenu();
-              this.openQR_scanner_success();
+              this.opencanner_success();
             } else if (decodedText == this.qr_3 && this.state == 2) {
               this.lastQR = decodedText;
               this.state += 1;
               this.goToMainMenu();
-              this.openQR_scanner_success();
+              this.opencanner_success();
             } else if (decodedText == this.qr_4 && this.state == 3) {
               this.lastQR = decodedText;
               this.state += 1;
               this.goToMainMenu();
-              this.openQR_scanner_success();
+              this.opencanner_success();
             } else if (decodedText == this.qr_5 && this.state == 4) {
               this.lastQR = decodedText;
               this.state += 1;
               this.goToMainMenu();
-              this.openQR_scanner_success();
+              this.opencanner_success();
             } else if (decodedText == this.qr_6 && this.state == 5) {
               this.lastQR = decodedText;
               this.state += 1;
               this.goToMainMenu();
-              this.openQR_scanner_success();
+              this.opencanner_success();
             } else if (decodedText == this.qr_7 && this.state == 6) {
               this.lastQR = decodedText;
               this.state += 1;
               this.goToMainMenu();
-              this.openQR_scanner_success();
+              this.opencanner_success();
             } else if (decodedText == this.lastQR) {
               console.log(`PASS: Text = ${decodedText}; \n State = ${this.state}`);
               //pass
