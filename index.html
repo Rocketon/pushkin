@@ -148,184 +148,187 @@
     <script src="js/html5-qrcode.min.js"></script>
 
     <script type="application/javascript">
-      Vue.component("qrcode-scanner", {
-        props: {
-          qrbox: {
-            type: Number,
-            default: 250,
-          },
-          fps: {
-            type: Number,
-            default: 10,
-          },
+      Vue.component('qrcode-scanner', {
+      props: {
+        qrbox: {
+          type: Number,
+          default: 250
         },
-        template: `<div id="qr-code-full-region"></div>`,
-        mounted() {
-          const config = {
-            fps: this.fps,
-          };
-          let html5QrCode = new Html5Qrcode("reader");
-          let qrCodeSuccessCallback = html5QrCode
-            .start(
-              { facingMode: "environment" },
-              config,
-              (decodedText, decodedResult) => {
-                this.onScanSuccess(decodedText, decodedResult);
-              },
-              (errorMessage) => {
-                console.log(errorMessage);
-              }
-            )
+        fps: {
+          type: Number,
+          default: 10
+        },
+      },
+      template: `<div id="qr-code-full-region"></div>`,
+      mounted() {
+        const config = {
+          fps: this.fps,
+        };
+        let html5QrCode = new Html5Qrcode("reader");
+        let qrCodeSuccessCallback =
+          html5QrCode.start({ facingMode: "environment" }, config, (decodedText, decodedResult) => {
+            this.onScanSuccess(decodedText, decodedResult);
+          }, (errorMessage) => {
+            console.log(errorMessage)
+          })
             .catch((err) => {
               html5QrCode.stop();
               html5QrCode.clear();
             });
+      },
+      methods: {
+        onScanSuccess(decodedText, decodedResult) {
+          this.$emit('result', decodedText, decodedResult);
         },
-        methods: {
-          onScanSuccess(decodedText, decodedResult) {
-            this.$emit("result", decodedText, decodedResult);
-          },
-        },
-      });
-
-      let app = new Vue({
-        el: ".main",
-        data: {
-          showMainMenu: false,
-          showQR_scanner: true,
-          showQR_scanner_error: false,
-          showQR_scanner_success: false,
-          lastQR: "",
-          state: -1,
-          qr_s: "https://rocketon.github.io/pushkin/",
-          qr_1: "ebjhsc",
-          qr_2: "ityquw",
-          qr_3: "gjasyw",
-          qr_4: "jgktws",
-          qr_5: "zjamsk",
-          qr_6: "bnaiws",
-          qr_7: "iakwsl",
-          scanStop: true,
-        },
-        mounted() {
-          this.$nextTick(function () {
-            console.log("nextTick");
-            if (localStorage.getItem("state") == null || localStorage.getItem("state") == -1) {
-              localStorage.setItem("state", this.state);
-            } else {
-              setTimeout(() => {
-                this.state = localStorage.getItem("state");
-                this.goToMainMenu();
-              }, 500);
-            }
-          });
-        },
-        methods: {
-          clearScreen() {
-            this.showMainMenu = false;
-            this.showQR_scanner = false;
-            window.scrollTo(0, 0);
-          },
-          goToMainMenu() {
-            this.clearScreen();
-            this.showMainMenu = true;
-            localStorage.setItem("state", this.state);
-          },
-          opencanner() {
-            this.clearScreen();
-            this.showcanner = true;
-          },
-          opencanner_error() {
-            this.showcanner_error = true;
-            setTimeout(() => {
-              this.showcanner_error = false;
-            }, "1000");
-          },
-          opencanner_success() {
-            this.showcanner_success = true;
-            setTimeout(() => {
-              this.showcanner_success = false;
-            }, "1000");
-          },
-          onScan(decodedText, decodedResult) {
-            if (decodedText == this.qr_s && this.state == -1) {
-              this.lastQR = decodedText;
-              this.state = 0;
-              this.goToMainMenu();
-              this.opencanner_success();
-            } else if (decodedText == this.qr_1 && this.state == 0) {
-              this.lastQR = decodedText;
-              this.state += 1;
-              this.goToMainMenu();
-              this.opencanner_success();
-            } else if (decodedText == this.qr_2 && this.state == 1) {
-              this.lastQR = decodedText;
-              this.state += 1;
-              this.goToMainMenu();
-              this.opencanner_success();
-            } else if (decodedText == this.qr_3 && this.state == 2) {
-              this.lastQR = decodedText;
-              this.state += 1;
-              this.goToMainMenu();
-              this.opencanner_success();
-            } else if (decodedText == this.qr_4 && this.state == 3) {
-              this.lastQR = decodedText;
-              this.state += 1;
-              this.goToMainMenu();
-              this.opencanner_success();
-            } else if (decodedText == this.qr_5 && this.state == 4) {
-              this.lastQR = decodedText;
-              this.state += 1;
-              this.goToMainMenu();
-              this.opencanner_success();
-            } else if (decodedText == this.qr_6 && this.state == 5) {
-              this.lastQR = decodedText;
-              this.state += 1;
-              this.goToMainMenu();
-              this.opencanner_success();
-            } else if (decodedText == this.qr_7 && this.state == 6) {
-              this.lastQR = decodedText;
-              this.state += 1;
-              this.goToMainMenu();
-              this.opencanner_success();
-            } else if (decodedText == this.lastQR) {
-              console.log(`PASS: Text = ${decodedText}; \n State = ${this.state}`);
-              //pass
-            } else {
-              console.log(`Text = ${decodedText}; \n State = ${this.state}`);
-              this.lastQR = decodedText;
-              this.openQR_scanner_error();
-            }
-          },
-          openSettings() {
-            if (document.getElementById("qr-code-full-region__dashboard").style.display == "none") {
-              document.getElementById("qr-code-full-region__dashboard").style.display = "block";
-            } else {
-              document.getElementById("qr-code-full-region__dashboard").style.display = "none";
-            }
-          },
-          syncWithLocal() {},
-          checkBrowser() {},
-        },
-      });
-
-      // отделить ПК дебаг
-
-      setTimeout(() => {
-        let txt = document.location.href.split("#").pop();
-        console.log(txt);
-        if (txt == "start") {
-          app.goToMainMenu();
-          app.state = 0;
-        }
-      }, 500);
-
-      function restart() {
-        if (confirm("Вы уверены что хотите начать с начала?")) {
-          localStorage.setItem("state", -1);
-          location.reload();
-        }
       }
+    });
+
+    let app = new Vue({
+      el: '.main',
+      data: {
+        showMainMenu: false,
+        showQR_scanner: true,
+        showQR_scanner_error: false,
+        showQR_scanner_success: false,
+        lastQR: '',
+        state: -1,
+        qr_s: 'https://rocketon.github.io/pushkin/',
+        qr_1: 'ebjhsc',
+        qr_2: 'ityquw',
+        qr_3: 'gjasyw',
+        qr_4: 'jgktws',
+        qr_5: 'zjamsk',
+        qr_6: 'bnaiws',
+        qr_7: 'iakwsl',
+        scanStop: true,
+      },
+      mounted() {
+        this.$nextTick(function () {
+          if (localStorage.getItem('state') == null || localStorage.getItem('state') == -1) {
+            localStorage.setItem('state', this.state)
+          } else {
+            setTimeout(() => {
+              this.state = localStorage.getItem('state')
+              this.goToMainMenu()
+            }, 500)
+          }
+        })
+
+      },
+      methods: {
+        clearScreen() {
+          this.showMainMenu = false;
+          this.showQR_scanner = false;
+          window.scrollTo(0, 0);
+        },
+        goToMainMenu() {
+          this.clearScreen()
+          this.showMainMenu = true
+        },
+        openQR_scanner() {
+          this.clearScreen()
+          this.showQR_scanner = true
+        },
+        openQR_scanner_error() {
+          this.showQR_scanner_error = true
+          setTimeout(() => {
+            this.showQR_scanner_error = false;
+          }, "1000")
+        },
+        openQR_scanner_success() {
+          this.showQR_scanner_success = true
+          setTimeout(() => {
+            this.showQR_scanner_success = false;
+          }, "1000")
+        },
+        onScan(decodedText, decodedResult) {
+          if (decodedText == this.qr_s && this.state == -1) {
+            this.lastQR = decodedText
+            this.state = 0
+            this.goToMainMenu()
+            this.openQR_scanner_success()
+          } else if (decodedText == this.qr_1 && this.state == 0) {
+            this.lastQR = decodedText
+            this.state += 1;
+            this.goToMainMenu()
+            this.openQR_scanner_success()
+          } else if (decodedText == this.qr_2 && this.state == 1) {
+            this.lastQR = decodedText
+            this.state += 1;
+            this.goToMainMenu()
+            this.openQR_scanner_success()
+          } else if (decodedText == this.qr_3 && this.state == 2) {
+            this.lastQR = decodedText
+            this.state += 1;
+            this.goToMainMenu()
+            this.openQR_scanner_success()
+          } else if (decodedText == this.qr_4 && this.state == 3) {
+            this.lastQR = decodedText
+            this.state += 1;
+            this.goToMainMenu()
+            this.openQR_scanner_success()
+          } else if (decodedText == this.qr_5 && this.state == 4) {
+            this.lastQR = decodedText
+            this.state += 1;
+            this.goToMainMenu()
+            this.openQR_scanner_success()
+          } else if (decodedText == this.qr_6 && this.state == 5) {
+            this.lastQR = decodedText
+            this.state += 1;
+            this.goToMainMenu()
+            this.openQR_scanner_success()
+          } else if (decodedText == this.qr_7 && this.state == 6) {
+            this.lastQR = decodedText
+            this.state += 1;
+            this.goToMainMenu()
+            this.openQR_scanner_success()
+          } else if (decodedText == this.lastQR) {
+            console.log(`PASS: Text = ${decodedText}; \n State = ${this.state}`)
+            //pass
+          } else {
+            console.log(`Text = ${decodedText}; \n State = ${this.state}`)
+            this.lastQR = decodedText
+            this.openQR_scanner_error()
+          }
+          if ( -1 <= this.state <= 7) {
+            localStorage.setItem('state', this.state)
+          }
+          
+        },
+        openSettings() {
+          if (document.getElementById("qr-code-full-region__dashboard").style.display == "none") {
+            document.getElementById("qr-code-full-region__dashboard").style.display = "block";
+          } else {
+            document.getElementById("qr-code-full-region__dashboard").style.display = "none";
+          }
+        },
+        syncWithLocal() {
+
+        },
+        checkBrowser() {
+
+        }
+      },
+    })
+
+    // отделить ПК дебаг
+
+    setTimeout(() => {
+      let txt = document.location.href.split('#').pop();
+      console.log(txt)
+      if (txt == 'start') {
+        app.goToMainMenu()
+        app.state = 0
+      };
+    }, 500);
+
+    function restart() {
+      if (confirm('Вы уверены что хотите начать с начала?')) {
+        localStorage.setItem('state', -1)
+        location.reload()
+      }
+
+    }
     </script>
   </body>
 </html>
